@@ -1,5 +1,9 @@
 > Small http render sever : send a 3d (stl, ctm, obj), get a nice static render back !
 
+[![GitHub version](https://badge.fury.io/gh/usco%2Fthumbnail-render-server.svg)](https://badge.fury.io/gh/usco%2Fthumbnail-render-server)
+[![experimental](http://badges.github.io/stability-badges/dist/experimental.svg)](http://github.com/badges/stability-badges)
+[![Build Status](https://travis-ci.org/usco/thumbnail-render-server.svg)](https://travis-ci.org/usco/thumbnail-render-server)
+
 ## Table of Contents
 
 - [Background](#background)
