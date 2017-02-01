@@ -9,12 +9,13 @@ import { throwError, of } from 'most'
 import { getArgs } from './utils/args'
 import { run } from './utils/run'
 import rmDir from './utils/rmDir'
+const formidable = require('express-formidable')
+const md5File = require('md5-file')
 
 // setup environemental variables
 require('env2')(path.resolve(__dirname, '../.env'))
 // deal with command line args etc
 let params = getArgs()
-
 
 function sendBackFile (workdir, response, filePath) {
   let fullPath = path.resolve(filePath)
@@ -56,7 +57,6 @@ const {port, testMode, login, password} = params
 
 // ///////////////
 // start up server
-var formidable = require('express-formidable')
 let app = express()
 // app.use(bodyParser.raw())
 // app.use(bodyParser.json())
@@ -66,10 +66,17 @@ if (!fs.existsSync(workdirBase)) {
   fs.mkdirSync(workdirBase)
 }
 
+// for manual caching of stl files
+/*let fileStore = {}
+const fileStoreBasePath = path.resolve(workdirBase, 'fileStore')
+if (!fs.existsSync(fileStoreBasePath)) {
+  fs.mkdirSync(fileStoreBasePath)
+}*/
+
 app.use(formidable({multiples: false, uploadDir: workdirBase}))
 
 app.post('/', function (req, res) {
-  //console.log(req.files, req.fields)
+  // console.log(req.files, req.fields)
   // if (!req.body) return res.sendStatus(400)
 
   const {inputFile} = req.files
@@ -85,10 +92,22 @@ app.post('/', function (req, res) {
 
     let workdir = tmp.dirSync({template: './tmp/render-XXXXXX'})
     const workDirPath = path.resolve(workdir.name)
+    let inputFilePath = path.resolve(workDirPath, inputFile.name)
 
-    //move tmp file
-    const inputFilePath = path.resolve(workDirPath, inputFile.name)
+    //FIXME: futile attempt at caching
+    // generate md5 hash of file
+    /*const fileHash = md5File.sync(inputFile.path)
+    if (fileStore[fileHash]) {
+      inputFilePath = fileStore[fileHash]
+      console.log('loading from cache', inputFilePath)
+    } else {
+      // move tmp file
+      inputFilePath = path.join(fileStoreBasePath, inputFile.name)
+      fs.renameSync(inputFile.path, inputFilePath)
+      fileStore[fileHash] = inputFilePath
+    }*/
     fs.renameSync(inputFile.path, inputFilePath)
+
     const rendererPath = path.resolve(__dirname, '../', 'node_modules', 'usco-headless-renderer/dist/index.js')
     const outputFilePath = path.resolve(workdir.name, 'output.png')
     const mainCmd = `node ${rendererPath} input=${inputFilePath} output=${outputFilePath} resolution=${resolution} cameraPosition=${cameraPosition} verbose=true`
