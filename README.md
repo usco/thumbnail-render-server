@@ -4,6 +4,9 @@
 [![experimental](http://badges.github.io/stability-badges/dist/experimental.svg)](http://github.com/badges/stability-badges)
 [![Build Status](https://travis-ci.org/usco/thumbnail-render-server.svg)](https://travis-ci.org/usco/thumbnail-render-server)
 
+<img src="https://raw.githubusercontent.com/usco/thumbnail-render-server/master/screenshot.png" />
+
+
 ## Table of Contents
 
 - [Background](#background)
@@ -34,12 +37,12 @@ npm install
 
 ## Usage
 
-
+###Server:
 > Note : default port is 2210
 
 > Also: the `npm start` command will run the server wraped by the forever tool, to ensure continued uptime
 
-### for production environments
+#### for production environments
 
 ```
   npm start -- port=5252
@@ -57,7 +60,7 @@ You can stop the server at anytime using
   node launch-server.js
 ```
 
-### managing existing running instances
+#### managing existing running instances
 
 List existing processes
 ```
@@ -70,6 +73,21 @@ Stop given process (with given ID)
 ```
 
 and then restart the correct one from the working directory using npm run start (see previous instructions)
+
+###how to use as client:
+
+- do a POST request with following parameters
+   - resolution : in the form WIDTHxHEIGHT (the x is important)
+   - camera position : [x,y,z] this the basis position (orbit camera) , and then a 'zoom to fit' algorithm is applied to try to fit as much of the object on screen as possible
+   - inputFile : your STL, OBJ, CTM file (3MF coming up next, GCODE in a few weeks)
+
+> IMPORTANT ! you MUST use form-data to send your data, and nothing else like x-www-form-urlencoded etc
+
+> IMPORTANT ! NO compression & NO caching for now , so it does NOT keep files around between requests, please experiment with smaller files first , even if it can handle quite big ones too,( I tried 80MB max , that does take a while), I'll try to add at least some form of uploaded file caching soon
+
+For clarity I included a screenshot of the parameters & a result in [postman](https://www.getpostman.com/) very practical for testing your camera angles
+
+<img src="https://raw.githubusercontent.com/usco/thumbnail-render-server/master/screenshot.png" />
 
 ## Contribute
 
