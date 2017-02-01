@@ -1,4 +1,4 @@
-> Send a 3d (stl, ctm, obj), get a nice static render back !
+> Small http render sever : send a 3d (stl, ctm, obj), get a nice static render back !
 
 ## Table of Contents
 
@@ -13,9 +13,16 @@
 
 - server to generate static images from a given 3d model
 
+> Note: currently you need to have an opengl capable (but headless) server to be able
+to generate the images (uses xvfb-run under the hood)
+
 ## Installation
 
-
+Not yet on NPM , will be soon
+```
+git clone git@github.com:usco/thumbnail-render-server.git
+```
+go into the clone folder and then
 ```
 npm install
 ```
@@ -23,7 +30,6 @@ npm install
 
 ## Usage
 
-### server mode
 
 > Note : default port is 2210
 
@@ -70,5 +76,5 @@ Small note: If editing the Readme, please conform to the [standard-readme](https
 
 ## License
 
-[The MIT License (MIT)](https://github.com/YouMagine/ym-to-3mf/blob/master/LICENSE)
+[The MIT License (MIT)](https://github.com/usco/thumbnail-render-server/blob/master/LICENSE)
 (unless specified otherwise)
