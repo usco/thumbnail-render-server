@@ -1,4 +1,4 @@
-> Renders a 3d model file (stl, obj, ply) into a (list of) png files
+> Send a 3d (stl, ctm, obj), get a nice static render back !
 
 ## Table of Contents
 
@@ -11,7 +11,7 @@
 
 ## Background
 
-- generate one ore more static images from a given 3d model
+- server to generate static images from a given 3d model
 
 ## Installation
 
