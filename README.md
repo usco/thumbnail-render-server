@@ -17,7 +17,7 @@
 
 - server to generate static images from a given 3d model
 
-> Note: currently you need to have an opengl capable (but headless) server to be able
+> Note: currently you need to have an opengl capable (but it can be headless) machine to be able
 to generate the images (uses xvfb-run under the hood)
 
 ## Installation
