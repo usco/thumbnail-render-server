@@ -1,8 +1,8 @@
 {
   "name": "@usco/thumbnail-render-server",
   "version": "0.0.1",
-  "description": "",
-  "main": "index.js",
+  "description": "Small http render sever : send a 3d (stl, ctm, obj), get a nice static render back !",
+  "bin": "launch-index.js",
   "scripts": {
     "start": "forever start --id 'thumbnail-render-server' launch-server.js",
     "stop": "forever stop thumbnail-render-server",
