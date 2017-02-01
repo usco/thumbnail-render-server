@@ -12,7 +12,7 @@ import rmDir from './utils/rmDir'
 
 // setup environemental variables
 require('env2')(path.resolve(__dirname, '../.env'))
-// ///////deal with command line args etc
+// deal with command line args etc
 let params = getArgs()
 
 
@@ -73,7 +73,9 @@ app.post('/', function (req, res) {
   // if (!req.body) return res.sendStatus(400)
 
   const {inputFile} = req.files
-  const {resolution, angle} = req.fields
+  let {resolution, cameraPosition} = req.fields
+  cameraPosition = cameraPosition || '[75,75,145]'
+  cameraPosition = cameraPosition.replace(/' '/g, '')
 
   if (inputFile) {
     let authData = ''
@@ -89,7 +91,7 @@ app.post('/', function (req, res) {
     fs.renameSync(inputFile.path, inputFilePath)
     const rendererPath = path.resolve(__dirname, '../', 'node_modules', 'usco-headless-renderer/dist/index.js')
     const outputFilePath = path.resolve(workdir.name, 'output.png')
-    const mainCmd = `node ${rendererPath} ${inputFilePath} ${resolution} ${outputFilePath}`
+    const mainCmd = `node ${rendererPath} input=${inputFilePath} output=${outputFilePath} resolution=${resolution} cameraPosition=${cameraPosition} verbose=true`
 
     // RUN conversion
     of(mainCmd)
