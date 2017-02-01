@@ -9,6 +9,9 @@ import { throwError, of } from 'most'
 import { getArgs } from './utils/args'
 import { run } from './utils/run'
 import rmDir from './utils/rmDir'
+import { appInPath } from './utils/appPath'
+
+
 const formidable = require('express-formidable')
 const md5File = require('md5-file')
 
@@ -113,7 +116,10 @@ app.post('/', function (req, res) {
     const mainCmd = `node ${rendererPath} input=${inputFilePath} output=${outputFilePath} resolution=${resolution} cameraPosition=${cameraPosition} verbose=true`
 
     // RUN conversion
-    of(mainCmd)
+    appInPath('xvfb-run')
+      .map(xvfb => {
+        return xvfb === true ? `xvfb-run -a -s "-ac -screen 0 ${resolution}x24" ${mainCmd}` : `${mainCmd}`
+      })
       .tap(cmd => console.log('launching', cmd))
       .flatMap(cmd => run(cmd))
       .flatMapError(function (error) {
