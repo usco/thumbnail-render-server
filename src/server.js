@@ -78,6 +78,10 @@ if (!fs.existsSync(fileStoreBasePath)) {
 
 app.use(formidable({multiples: false, uploadDir: workdirBase}))
 
+app.get('/status', (req, res) => {
+  res.send({up: true})
+})
+
 app.post('/', function (req, res) {
   // console.log(req.files, req.fields)
   // if (!req.body) return res.sendStatus(400)
